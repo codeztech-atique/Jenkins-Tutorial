@@ -4,9 +4,6 @@ npm install karma -g
 
 npm install npm@latest -g
 
-Upgrade your type script if you are using 2.7
-
-"typescript": "^2.8.3"
 
 npm install
 
