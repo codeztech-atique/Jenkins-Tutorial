@@ -1,0 +1,214 @@
+
+Follow the link for the article - 
+https://linuxize.com/post/how-to-install-jenkins-on-ubuntu-18-04/
+https://www.digitalocean.com/community/tutorials/how-to-install-jenkins-on-ubuntu-18-04
+
+Install Java
+
+Add PPA repo - 
+sudo add-apt-repository ppa:openjdk-r/ppa
+
+sudo apt update
+sudo apt install openjdk-8-jdk
+
+Switch to Java 8
+sudo update-alternatives --config java
+
+
+Add the Jenkins Debian repository.
+
+//Import the GPG keys of the Jenkins repository using the following wget command:
+
+//1. wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+
+//The command above should output OK which means that the key has been successfully imported and packages from this repository will be considered trusted.
+
+//Next, add the Jenkins repository to the system with:
+
+//2. sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+
+
+Stop the jenkins server
+$ sudo service jenkins stop
+Move existing jenkins war file
+$ sudo mv jenkins.war jenkins.war.old
+Download latest jenkins war file
+$ cd /usr/share/jenkins
+$ sudo wget https://updates.jenkins-ci.org/latest/jenkins.war
+Start the Jenkins server
+$ sudo service jenkins start
+
+
+
+#Install Jenkins
+
+#sudo apt update
+#sudo apt install jenkins
+
+sudo systemctl start jenkins.service
+sudo systemctl enable jenkins.service
+
+systemctl status jenkins or
+ps aux | grep jenkins
+
+You will get like the below message - 
+
+● jenkins.service - LSB: Start Jenkins at boot time
+Loaded: loaded (/etc/init.d/jenkins; generated)
+Active: active (exited) since Wed 2018-08-22 13:03:08 PDT; 2min 16s ago
+    Docs: man:systemd-sysv-generator(8)
+    Tasks: 0 (limit: 2319)
+CGroup: /system.slice/jenkins.service
+
+
+If you want to adjust firewall from the instance level
+sudo ufw allow 8080
+
+sudo ufw status
+
+
+Status: active
+
+To                         Action      From
+--                         ------      ----
+OpenSSH                    ALLOW       Anywhere
+8080                       ALLOW       Anywhere
+OpenSSH (v6)               ALLOW       Anywhere (v6)
+8080 (v6)                  ALLOW       Anywhere (v6)
+
+
+Go to your browser if your jenkins is asking for a password. 
+
+please do from your command promt to get the password
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+you will get something - be43899883ca4e51bf7100054af5dae6 (Encrypted password)
+
+copy that and reset your jenkins password
+
+
+Click on Install Suggested Pluglin
+
+
+Then - 
+
+Create new Job -> Provide a name -> Freestyle Project  -> Okay
+
+We need to install our bitbucket Pluglin as well. 
+
+Go to HomePage -> Manage Jenkins -> Manage Plugins -> Click on Available -> type bitbucket
+then -> Select Bitbucket (Integrates with BitBucket)
+
+
+Restart Jenkins
+
+sudo /etc/init.d/jenkins restart
+
+Once you have done that, Select projects -> configurations -> 
+
+Go to source code management -> Click on Got projects -> 
+
+git clone https://atique12@bitbucket.org/atique12/mongocrud_application_frnt_end.git
+
+remove atique12@ and git clone
+
+Add credential -> Of my bitbucket if its a public repository then no need.
+
+Build Triggers part -> Build when a change is pushed to BitBucket (checked)
+
+In Build Part - > 
+
+Integration Jenkins with WebHook
+
+Go to bitbucket projects - settings - Webhooks
+
+Title - Jenkins
+URL - http://13.233.255.89/:8080/bitbucket-hook/
+
+copy your other ec2 pem key to jenkins 
+
+scp -i allinstancepair.pem allinstancepair.pem ubuntu@3.6.38.29:/home/ubuntu
+
+
+
+
+
+
+
+SMTP mail - 
+
+curl -sI http://jenkins/ | grep CLI
+
+sudo systemctl restart jenkins
+
+Then Google not allowed you pass your original app password
+
+SMTP server should still be smtp.gmail.com
+
+Default user e-mail suffix should be @yourcompany.com
+
+Because Google no longer allows you to simply use your default e-mail password to login via any outside apps, in this case Jenkins. It is a lot more secure to let Google create a custom password for Jenkins rather than turning off G-Mail's security features to allow Jenkins access to your account.
+
+Create the App Password here: https://security.google.com/settings/security/apppasswords
+
+
+
+
+Install Plugin - 
+Build Monitor View
+Bitbucket
+
+
+
+
+
+
+vi deploy.sh
+
+cd /home/ubuntu
+ls -l
+ssh-keygen -R 13.233.183.227
+ssh -i allinstancepair.pem ubuntu@13.233.183.227
+ls
+cd mongocrud_application_frnt_end
+git pull origin master
+pwd
+sudo npm install
+sudo pm2 start app.sh
+pwd
+
+chmod 777 deploy.sh
+
+chmod 400 allinstancepair.pem
+or chmod 600 allinstancepair.pem
+
+
+
+From Here -------------
+
+sudo vi /etc/ssh/ssh_config
+StrictHostKeyChecking no
+
+sudo service ssh restart
+sudo su jenkins
+
+Generated keygen
+ssh-keygen
+
+cd /var/lib/jenkins/.ssh/
+ls
+
+cat id_rsa.pub
+
+then copy the entire stuff
+
+connect to second Ec2 Instance
+
+cd .ssh if not there the mkdir .ssh
+
+vi authorized_keys
+paste the public key
+
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCiTn8zvA2dzdpRNhOYRD/YhPQHZvhlCQJqp2XzCzmUAp7qId3pFGlCag0oE/lIxbFYzDNS5BRtFQP0ctCuIj5pdKCAj7YQrj9GJYS5MRqQ/FHebJefzTOFsmSCxJM0Co1wFJJO9d3ydl5goFojM3f7eDcq9MbgpHz84lO0mORlRwDaGarpSTmPcvSol8eR3RHWzYT3Xd5jkQvVqvDjCQx1A3ExZ/xD1Fw30ZSivWEYRHsPBb9Z+ltaWr+9jsSF2QCUXF30ohD6FWCLvOec3ttZ2lhMoElrSZ7FGk9AYqs4jpRKi3ndxvpuuzOXx9R+S4/tXDtaRs5EnF4sRJILCOAJ allinstancepair
