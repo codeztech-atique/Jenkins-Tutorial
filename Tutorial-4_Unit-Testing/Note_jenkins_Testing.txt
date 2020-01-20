@@ -7,7 +7,7 @@ npm install npm@latest -g
 
 npm install
 
-ng test --watch=false
+ng test --source-map=false --watch=false
 
 npm install karma-phantomjs-launcher --save
 npm update caniuse-lite browserslist
