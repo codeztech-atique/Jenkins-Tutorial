@@ -1,16 +1,14 @@
-npm install -g protractor
-
-npm install karma -g
-
-npm install npm@latest -g
-
-
 npm install
+
+
+1) sudo npm install karma -g
+2) sudo npm install -g protractor
+3) sudo npm install karma-phantomjs-launcher --save
+4) sudo npm update caniuse-lite browserslist
 
 ng test --source-map=false --watch=false
 
-npm install karma-phantomjs-launcher --save
-npm update caniuse-lite browserslist
+
 
 ----------- NGINX INSTALLATION AND SETUP ------------
 
