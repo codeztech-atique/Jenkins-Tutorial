@@ -11,3 +11,24 @@ ng test --watch=false
 
 npm install karma-phantomjs-launcher --save
 npm update caniuse-lite browserslist
+
+----------- NGINX INSTALLATION AND SETUP ------------
+
+sudo apt-get update
+sudo apt-get install nginx -y
+systemctl status nginx
+
+sudo nano /etc/nginx/sites-available/default
+
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        server_name http://www.complaint-forum.online;
+
+        location / {
+          proxy_pass       http://localhost:4200;
+          proxy_set_header Host $host;
+        }
+}
+
+sudo service nginx restart
