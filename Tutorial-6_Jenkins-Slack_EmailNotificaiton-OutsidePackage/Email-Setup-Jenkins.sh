@@ -21,13 +21,3 @@ Check on ssl
 SMTP Port - 465
 Reply to Address - your other gmail youremailId
 Finally click on test
-
-
-pwd
-ls
-cd youtube_angular6_karmatesting
-git pull origin master
-pwd
-ls -l
-npm install
-ng test

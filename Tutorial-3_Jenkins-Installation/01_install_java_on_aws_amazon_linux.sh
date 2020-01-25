@@ -17,6 +17,10 @@ ssh -i /path/jenkins-key.pem ec2-user@ec2-123-456-78-9.compute-1.amazonaws.com
 sudo systemctl start jenkins.service
 sudo systemctl enable jenkins.service
 
+
+#Restart Jenkins
+sudo /etc/init.d/jenkins restart
+
 # install git
 sudo yum install git
 
